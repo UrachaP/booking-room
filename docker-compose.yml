@@ -1,0 +1,40 @@
+version: '1'
+services:
+  my-exam:
+    container_name: my-exam
+    image: exam:1
+    build:
+      context: .
+    depends_on:
+      - mysql
+    ports:
+      - 8080:8080
+
+  mysql:
+    container_name: mysql
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: exam
+      MYSQL_USER: test
+      MYSQL_PASSWORD: 12345678
+    ports:
+      - 3306:3306
+
+  my-redis:
+    container_name: redis
+    image: redis:7
+    restart: always
+    ports:
+      - 6379:6379
+
+  my-rabbit:
+    container_name: my-rabbit
+    image: rabbitmq:3-management
+    environment:
+      - RABBITMQ_DEFAULT_USER=username
+      - RABBITMQ_DEFAULT_PASS=1234
+    ports:
+      - 15672:15672
+      - 5672:5672
